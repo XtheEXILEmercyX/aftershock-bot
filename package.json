@@ -1,23 +1,28 @@
 {
-    "name": "adminbot",
-    "version": "0.1.0",
-    "description": "no description",
-    "main": "index.js",
-    "scripts": {
-      "start": "node ."
-    },
-    "repository": {
-      "type": "git",
-      "url": "git+https://github.com/XtheEXILEmercyX/aftershock-bot.git"
-    },
-    "author": "XtheEXILEmercyX",
-    "license": "ISC",
-    "bugs": {
-      "url": "https://github.com/XtheEXILEmercyX/aftershock-bot/issues"
-    },
-    "homepage": "https://github.com/XtheEXILEmercyX/aftershock-bot#readme",
-    "dependencies": {
-      "discord.js": "^12.2.0"
-    }
-  }
-  
+  "name": "admin-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "discord.js-commando": "^0.10.0",
+    "discord.js": "^12.2.0",
+    "giphy-js-sdk-core": "^1.0.6",
+    "ms": "^2.1.2",
+    "superagent": "^5.2.2",
+    "utf-8-validate": "^5.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XtheEXILEmercyX/aftershock-bot.git"
+  },
+  "author": "XtheExilemercyX",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/XtheEXILEmercyX/aftershock-bot/issues"
+  },
+  "homepage": "https://github.com/XtheEXILEmercyX/aftershock-bot#readme"
+}

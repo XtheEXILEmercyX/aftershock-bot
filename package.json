@@ -1,0 +1,23 @@
+{
+    "name": "adminbot",
+    "version": "0.1.0",
+    "description": "no description",
+    "main": "index.js",
+    "scripts": {
+      "start": "node ."
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/XtheEXILEmercyX/aftershock-bot.git"
+    },
+    "author": "XtheEXILEmercyX",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/XtheEXILEmercyX/aftershock-bot/issues"
+    },
+    "homepage": "https://github.com/XtheEXILEmercyX/aftershock-bot#readme",
+    "dependencies": {
+      "discord.js": "^12.2.0"
+    }
+  }
+  

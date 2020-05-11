@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const bot = require('./index.js').bot;
 const superagent = require("superagent");
+const {tag} = require('./config.js').prefix;
 const fs = require("fs");
 const ms = require("ms");
 
@@ -354,52 +355,21 @@ objExp.help = (message,args) => {
 }
 */
 objExp.commands = (message,args) => {
-    // a!commands
-        // so we have a method to match if the message sent is okay to execute this command
-        match(args); {
-            // set a condition (return a boolean) if it's okay or not
-            // here, for example, you want the message contains 0 argument
-            // so the user must write "*training" only, and not "*training a b cdef"
-            return args.length == 0; // return either the number of argument is equals to 0
-            // you can change it
-        }
-        
-        // the action method is the execution of the command
-        // this method will be executed only if the match() method returns true (so here if there is 0 args)
-        action(message, args); {
-            // do all your cmd here
-            // just below this line, in the { }
-            // which cmd do you want to do here ?
-            // we can rename the class and the file as many time as we want so we can change cmd
-            // you don't have to do this
-            // because it already has been done
-            // yes you have a base code that do the same thing everytime you write a message
-            // then if it detects you wrote a cmd he has in his code, then he will execute it
-            // look at index.js
-            // so you just have to write what's the cmd do
-            // for example, for the use pokeball, just write what the cmd do
-    
-            let embed = new Discord.MessageEmbed()
-                .setTitle('commands')
-                .setColor(0xdd0000)
-                .addFields(
-                    {name: 'a!hello',		value: 'will say hello to caster of the command'},
-                    {name: 'a!report',	    value: 'you can report a person/bot so that an admin ca nsee why you reported him'},
-                    {name: 'a!serverinfo',  value: 'shows you the info about the server the command is used in'},
-                    {name: 'a!botinfo',  	value: 'shows you info about the bot'},
-                    {name: 'a!kick',	    value: 'kicks an player (admins only)'},
-                    {name: 'a!ban', 	    value: 'bans an player (admins only)'},
-                    {name: 'a!commands', 	value: 'shows you all the commands this bot has for now (more commands can follow in the future)'},
+    let embed = new Discord.MessageEmbed()
+        .setTitle('commands')
+        .setColor(0xdd0000);
 
-                );
-    
-            message.channel.send(embed);
-        }
-        
-    
-        
-    
+    let cmds = Object.keys(objExp);
+    let max = (cmds.length < 10)? cmds.length : 10; // max the 10 first commands. We'll see for a better version another time
+
+    for(let i=0; i<max; i++) {
+        let cmdName = cmds[i];
+        embed.addField(`${tag}${cmdName}`, objExp[cmdName].description? objExp[cmdName].description : 'No description provided');
+    }
+
+    message.channel.send(embed);
 }
+
 /*
 objExp.empty = (message,args) => {
     // a!

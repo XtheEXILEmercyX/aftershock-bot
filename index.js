@@ -45,8 +45,8 @@ bot.on("message", message => {
         case 'doggo':       commands.doggo(message, args); break;
         case 'cat':         commands.cat(message, args); break;
         case 'help':        commands.help(message,args); break;
-        case 'empty':       commands.empty(message,args); break;
-        case 'empty':       commands.empty(message,args); break;
+*/      case 'commands':       commands.empty(message,args); break;
+/*      case 'empty':       commands.empty(message,args); break;
         case 'empty':       commands.empty(message,args); break;
         case 'empty':       commands.empty(message,args); break;
         case 'empty':       commands.empty(message,args); break; */

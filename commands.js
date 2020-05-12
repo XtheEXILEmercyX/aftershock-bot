@@ -93,7 +93,7 @@ objExp.pokemon_soundtrack = {
     description: "plays pokemon soundtrack"
 };
 
-objExp.nigthcore = {
+objExp.nightcore = {
     execute: (message,args) => {
         message.channel.send("https://www.youtube.com/watch?v=cvaIgq5j2Q8&list=PLckeMyCaCCIN_JU1V4oADW50DlGOREoLjYouTube")
     },

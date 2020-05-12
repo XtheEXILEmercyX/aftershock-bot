@@ -20,7 +20,7 @@ bot.on('ready', () => {
     console.log(`logged in as ${config.name} bot.`);
 })
 
-// when someone send message in a channel the bot has access to
+// when someone send message in a channel the bot has access to 
 bot.on("message", message => {
     // does not accept bot messages, in private messages, and messages that does not starts with prefix
     if(message.author.bot || message.channel.type === "dm") return;

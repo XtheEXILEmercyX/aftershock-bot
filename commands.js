@@ -423,38 +423,6 @@ objExp.warn = (message, args) => {
     }
 }
 
-objExp.doggo = (message, args) => {
-    // a!doggo
-    async channel => {
-        let {body} = await superagent
-        .get(`https://random.dog/woof.json`);
-
-        let dogembed = new Discord.MessageEmbed()
-        .setColor("#ff9900")
-        .setTitle("Doggo :dog:")
-        .setImage(body.Url);
-
-        message.channel.send(dogembed);
-    }
-
-}
-
-objExp.cat = (message, args) => {
-    // a!cat
-    async channel => {
-        let {body} = await superagent
-        .get(`https://random.cat/meow.json`);
-
-        let dogembed = new Discord.MessageEmbed()
-        .setColor("#ff9900")
-        .setTitle("cat :cat:")
-        .setImage(body.file);
-
-        message.channel.send(dogembed);
-    }
-
-}
-
 objExp.help = (message,args) => {
     // a!help
     match(args) {
@@ -493,6 +461,7 @@ objExp.help = (message,args) => {
 /*
 objExp.empty = (message,args) => {
     // a!
+    
     
 }
 

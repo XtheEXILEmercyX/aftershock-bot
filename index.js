@@ -10,7 +10,7 @@ objExp.bot = bot;
 // /!\ need to be before
 
 // local requires
-const config = require("./local.config.js");
+const config = require("./config.js");
 const commands = require("./commands.js");
 
 

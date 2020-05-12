@@ -402,7 +402,7 @@ objExp.commands = {
         }
 
         message.channel.send(embed);
-    },
+    }, 
 
     description: "show all commands"
 }

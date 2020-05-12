@@ -16,7 +16,7 @@ const commands = require("./commands.js");
 
 // when bot beeing connected
 bot.on('ready', () => {
-    bot.user.setActivity('use a!commands for list of commands', {type: 'STREAMING'});
+    bot.user.setActivity('a!help||a!commands', {type: 'LISTENING'});
     console.log(`logged in as ${config.name} bot.`);
 })
 

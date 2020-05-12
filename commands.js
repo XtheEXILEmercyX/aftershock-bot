@@ -1,154 +1,187 @@
 const Discord = require('discord.js');
 const bot = require('./index.js').bot;
 const superagent = require("superagent");
-const {tag} = require('./config.js').prefix;
+const tag = require('./config.js').prefix;
 const fs = require("fs");
 const ms = require("ms");
+const admin = require('./utils.js');
 
 let objExp = module.exports = {};
 let warns = JSON.parse(fs.readFileSync("./warnings.json", "utf8"));
 
-objExp.hello = (message, args) => {
-    message.channel.send("hello sir, hope your day is going well!");
+objExp.hello = {
+    execute: (message, args) => {
+        message.channel.send("hello sir, hope your day is going well!");
+    },
+
+    description: "Says hello"
 };
 
-objExp.report = (message, args) => {
-    //!report <@user> <reason>
-    if(args.length == 0) return message.channel.send('You need to mention a server member.');
-    
-    let memberId = args[0].replace(/<@(&|!)?(\d+)>/, '$2');
+objExp.report = {
+    execute: (message, args) => {
+        //!report <@user> <reason>
+        if(!admin(message.member)) return message.channel.send('You can\'t use this command.');
 
-    let rUser = message.guild.members.cache.get(memberId);
-    if(!rUser) return message.channel.send("Couldn't find this member on this server !");
+        if(args.length == 0) return message.channel.send('You need to mention a server member.');
+        
+        let memberId = args[0].replace(/<@(&|!)?(\d+)>/, '$2');
+
+        let rUser = message.guild.members.cache.get(memberId);
+        if(!rUser) return message.channel.send("Couldn't find this member on this server !");
 
 
-    let reason = (args.length > 1)? args.splice(1).join(" ") : 'No reason';
+        let reason = (args.length > 1)? args.splice(1).join(" ") : 'No reason';
 
-    let reportEmbed = new Discord.MessageEmbed()
-        .setTitle("❗reports")
-        .setColor("#a83232")
-        .addFields(
-            {name: "Reported User", value: `${rUser} with ID: \`${rUser.id}\``},
-            {name: "Reported By", value: `${message.author} with ID: \`${message.author.id}\``},
-            {name: "Reason", value: reason},
-            {name: "Channel", value: message.channel},
-            {name: "Time", value: message.createdAt}
-        );
+        let reportEmbed = new Discord.MessageEmbed()
+            .setTitle("❗ Report")
+            .setColor("#a83232")
+            .addFields(
+                {name: "Reported User", value: `${rUser} with ID: \`${rUser.id}\``},
+                {name: "Reported By", value: `${message.author} with ID: \`${message.author.id}\``},
+                {name: "Reason", value: reason},
+                {name: "Channel", value: message.channel},
+                {name: "Time", value: message.createdAt}
+            );
 
-    let reportschannel = message.guild.channels.cache.find(channel => channel.name == 'reports');
-    if(!reportschannel) return message.channel.send("Couldn't find reports channel !");
+        let reportschannel = message.guild.channels.cache.find(channel => channel.name == 'reports');
+        if(!reportschannel) return message.channel.send("Couldn't find reports channel !");
 
-    reportschannel.send(reportEmbed);
-    message.channel.send('User reported.\nPro tip: if you spam this command you will be warned.');
+        reportschannel.send(reportEmbed);
+        message.channel.send('User reported.\nPro tip: if you spam this command you will be warned.');
+    },
+
+    description: "Report a server member"
 };
 
-objExp.serverinfo = (message, args) => {
-    // a!botinfo
-    let sicon = message.guild.iconURL();
-    let serverembed = new Discord.MessageEmbed()
-        .setTitle("Server Information")
-        .setColor("#a83232")
-        .setThumbnail(sicon)
-        .addField("Server Name", message.guild.name)
-        .addField("Created On", message.guild.createdAt)
-        .addField("You Joined", message.member.joinedAt)
-        .addField("Total Members", message.guild.memberCount);
+objExp.serverinfo = {
+    execute: (message, args) => {
+        // a!botinfo
+        let sicon = message.guild.iconURL();
+        let serverembed = new Discord.MessageEmbed()
+            .setTitle("Server Information")
+            .setColor("#a83232")
+            .setThumbnail(sicon)
+            .addField("Server Name", message.guild.name)
+            .addField("Created On", message.guild.createdAt)
+            .addField("You Joined", message.member.joinedAt)
+            .addField("Total Members", message.guild.memberCount);
 
-    message.channel.send(serverembed);
+        message.channel.send(serverembed);
+    },
+
+    description: "Gives the server basic informations"
 };
 
-objExp.botinfo = (message, args) => {
-    // a!botinfo
-    let bicon = bot.user.displayAvatarURL();
-    let botembed = new Discord.MessageEmbed()
-        .setTitle("Bot Information")
-        .setColor("#a83232")
-        .setThumbnail(bicon)
-        .addField("Bot Name", bot.user.username)
-        .addField("Created On", bot.user.createdAt)
-        .addField("server", message.guild.name);
-    message.channel.send(botembed);
+objExp.botinfo = {
+    execute: (message, args) => {
+        // a!botinfo
+        let bicon = bot.user.displayAvatarURL();
+        let botembed = new Discord.MessageEmbed()
+            .setTitle("Bot Information")
+            .setColor("#a83232")
+            .setThumbnail(bicon)
+            .addField("Bot Name", bot.user.username)
+            .addField("Created On", bot.user.createdAt)
+            .addField("server", message.guild.name);
+        message.channel.send(botembed);
+    },
+
+    description: "Gives the bot basic informations"
 };
 
-objExp.kick = (message, args) => {
-    if(args.length == 0) return message.channel.send('You have to mention a server member.');
-    //a!kick <@user> <reason>
-    let memberId = args[0].replace(/<@(&|!)?(\d+)>/, '$2');
+objExp.kick = {
+    execute: (message, args) => {
+        if(!admin(message.member)) return message.channel.send('You can\'t use this command.');
 
-    let kUser = message.guild.members.cache.get(memberId);
+        if(args.length == 0) return message.channel.send('You have to mention a server member.');
+        //a!kick <@user> <reason>
+        let memberId = args[0].replace(/<@(&|!)?(\d+)>/, '$2');
 
-    if(!kUser) message.channel.send("Can't find member !");
+        let kUser = message.guild.members.cache.get(memberId);
 
-    let kReason = (args.length > 1)? args.splice(1).join(" ") : 'No reason';
+        if(!kUser) message.channel.send("Can't find member !");
 
-    if(!message.member.hasPermission("KICK_MEMBERS")) return message.channel.send("YOUR NOT AN ADMIN DON'T TRY TO USE COMMANDS THAT ARE NOT MADE FOR YOUR ROLE GO READ SERVER RULES AGAIN !!!");
-    if(kUser.hasPermission("KICK_MEMBERS")) return message.channel.send("that member can't be kicked !");
+        let kReason = (args.length > 1)? args.splice(1).join(" ") : 'No reason';
 
-    let kickEmbed = new Discord.MessageEmbed()
-        .setTitle("👉🚪 Kick")
-        .setColor("#fca503")
-        .addFields(
-            {name: "Kicked User", value: `${kUser} with ID: \`${kUser.id}\``},
-            {name: "Kicked By", value: `${message.author} with ID: \`${message.author.id}\``},
-            {name: "Reason", value: kReason},
-            {name: "Channel", value: message.channel},
-            {name: "Time", value: message.createdAt}
-        );
+        if(!message.member.hasPermission("KICK_MEMBERS")) return message.channel.send("YOUR NOT AN ADMIN DON'T TRY TO USE COMMANDS THAT ARE NOT MADE FOR YOUR ROLE GO READ SERVER RULES AGAIN !!!");
+        if(kUser.hasPermission("KICK_MEMBERS")) return message.channel.send("that member can't be kicked !");
 
-    let kickChannel = message.guild.channels.cache.find(channel => channel.name == "incidents");
-    if(!kickChannel) return message.channel.send("Can't find incidents channel!");
-    
-    kUser.kick(kReason).then(() => {
-        message.channel.send('Member kicked.');
-        kickChannel.send(kickEmbed);
-    }).catch(error => {
-        console.log("Cannot kick "+kUser.user.username+'#'+kUser.user.discriminator, error);
-        message.channel.send('An error occured.');
-    });
+        let kickEmbed = new Discord.MessageEmbed()
+            .setTitle("👉🚪 Kick")
+            .setColor("#fca503")
+            .addFields(
+                {name: "Kicked User", value: `${kUser} with ID: \`${kUser.id}\``},
+                {name: "Kicked By", value: `${message.author} with ID: \`${message.author.id}\``},
+                {name: "Reason", value: kReason},
+                {name: "Channel", value: message.channel},
+                {name: "Time", value: message.createdAt}
+            );
+
+        let kickChannel = message.guild.channels.cache.find(channel => channel.name == "incidents");
+        if(!kickChannel) return message.channel.send("Can't find incidents channel!");
+        
+        kUser.kick(kReason).then(() => {
+            message.channel.send('Member kicked.');
+            kickChannel.send(kickEmbed);
+        }).catch(error => {
+            console.log("Cannot kick "+kUser.user.username+'#'+kUser.user.discriminator, error);
+            message.channel.send('An error occured.');
+        });
+    },
+
+    description: "Kick a server member"
 }
 
-objExp.ban = (message, args) => {
-    // a!ban <@user> <reason>
-    if(args.length == 0) return message.channel.send('You have to mention a server member.');
+objExp.ban = {
+    execute: (message, args) => {
+        // a!ban <@user> <reason>
+        if(!admin(message.member)) return message.channel.send('You can\'t use this command.');
 
-    let memberId = args[0].replace(/<@(&|!)?(\d+)>/, '$2');
+        if(args.length == 0) return message.channel.send('You have to mention a server member.');
 
-    let bUser = message.guild.members.cache.get(memberId);
+        let memberId = args[0].replace(/<@(&|!)?(\d+)>/, '$2');
 
-    if(!bUser) message.channel.send("Can't find member !");
+        let bUser = message.guild.members.cache.get(memberId);
 
-    let bReason = (args.length > 1)? args.splice(1).join(" ") : 'No reason';
+        if(!bUser) message.channel.send("Can't find member !");
 
-    if(!message.member.hasPermission("BAN_MEMBERS")) return message.channel.send("YOUR NOT AN ADMIN DON'T TRY TO USE COMMANDS THAT ARE NOT MADE FOR YOUR ROLE GO READ SERVER RULES AGAIN !!!");
-    if(bUser.hasPermission("BAN_MEMBERS")) return message.channel.send("that member can't be banned !");
+        let bReason = (args.length > 1)? args.splice(1).join(" ") : 'No reason';
 
-    let banEmbed = new Discord.MessageEmbed()
-        .setTitle("👉🚪 BAN (7 days)")
-        .setColor("#fca503")
-        .addFields(
-            {name: "banned User", value: `${bUser} with ID: \`${bUser.id}\``},
-            {name: "banned By", value: `${message.author} with ID: \`${message.author.id}\``},
-            {name: "Reason", value: bReason},
-            {name: "Channel", value: message.channel},
-            {name: "Time", value: message.createdAt}
-        );
+        if(!message.member.hasPermission("BAN_MEMBERS")) return message.channel.send("YOUR NOT AN ADMIN DON'T TRY TO USE COMMANDS THAT ARE NOT MADE FOR YOUR ROLE GO READ SERVER RULES AGAIN !!!");
+        if(bUser.hasPermission("BAN_MEMBERS")) return message.channel.send("that member can't be banned !");
 
-    let banChannel = message.guild.channels.cache.find(channel => channel.name == "incidents");
-    if(!banChannel) return message.channel.send("Can't find incidents channel!");
-    
-    bUser.ban({days: 7,reason: bReason}).then(() => {
-        message.channel.send('Member banned.');
-        banChannel.send(banEmbed);
-    }).catch(error => {
-        console.log("Cannot ban "+bUser.user.username+'#'+bUser.user.discriminator, error);
-        message.channel.send('An error occured.');
-    });
-    
+        let banEmbed = new Discord.MessageEmbed()
+            .setTitle("👉🚪 BAN (7 days)")
+            .setColor("#fca503")
+            .addFields(
+                {name: "banned User", value: `${bUser} with ID: \`${bUser.id}\``},
+                {name: "banned By", value: `${message.author} with ID: \`${message.author.id}\``},
+                {name: "Reason", value: bReason},
+                {name: "Channel", value: message.channel},
+                {name: "Time", value: message.createdAt}
+            );
+
+        let banChannel = message.guild.channels.cache.find(channel => channel.name == "incidents");
+        if(!banChannel) return message.channel.send("Can't find incidents channel!");
+        
+        bUser.ban({days: 7,reason: bReason}).then(() => {
+            message.channel.send('Member banned.');
+            banChannel.send(banEmbed);
+        }).catch(error => {
+            console.log("Cannot ban "+bUser.user.username+'#'+bUser.user.discriminator, error);
+            message.channel.send('An error occured.');
+        });
+    },
+
+    description: "Ban a server member"
 };
 /*
 objExp.tempmute = (message, args) => {
     // a!tempmute <@user> <time 1s/1h/1d>
-	try {
+
+    if(!admin(message.member)) return message.channel.send('You can\'t use this command.');
+    
+    try {
         let tomute = message.member(message.guild.members.cache.get(args[0]));
         if(!tomute) return message.reply("Couldn't find user!");
         if(tomute.hasPremision("MANAGE_MESSAGES")) return message.reply("Can't mute them!");
@@ -354,20 +387,24 @@ objExp.help = (message,args) => {
 	}
 }
 */
-objExp.commands = (message,args) => {
-    let embed = new Discord.MessageEmbed()
-        .setTitle('commands')
-        .setColor(0xdd0000);
+objExp.commands = {
+    execute: (message,args) => {
+        let embed = new Discord.MessageEmbed()
+            .setTitle('commands')
+            .setColor(0xdd0000);
 
-    let cmds = Object.keys(objExp);
-    let max = (cmds.length < 10)? cmds.length : 10; // max the 10 first commands. We'll see for a better version another time
+        let cmds = Object.keys(objExp);
+        let max = (cmds.length < 10)? cmds.length : 10; // max the 10 first commands. We'll see for a better version another time
 
-    for(let i=0; i<max; i++) {
-        let cmdName = cmds[i];
-        embed.addField(`${tag}${cmdName}`, objExp[cmdName].description? objExp[cmdName].description : 'No description provided');
-    }
+        for(let i=0; i<max; i++) {
+            let cmdName = cmds[i];
+            embed.addField(`${tag}${cmdName}`, objExp[cmdName].description? objExp[cmdName].description : 'No description provided');
+        }
 
-    message.channel.send(embed);
+        message.channel.send(embed);
+    },
+
+    description: "show all commands"
 }
 
 /*

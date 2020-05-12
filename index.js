@@ -10,7 +10,7 @@ objExp.bot = bot;
 // /!\ need to be before
 
 // local requires
-const config = require("./local.config.js");
+const config = require("./config.js");
 const commands = require("./commands.js");
 
 
@@ -23,59 +23,52 @@ bot.on('ready', () => {
 // when someone send message in a channel the bot has access to
 bot.on("message", message => {
     // does not accept bot messages, in private messages, and messages that does not starts with prefix
-    if(message.author.bot || message.channel.type === "dm" || !message.content.startsWith(config.prefix)) return;
+    if(message.author.bot || message.channel.type === "dm") return;
     
+    else if(message.content.startsWith('dev!') && ['316639200462241792', '395980281695305729'].find(id => id == message.author.id)) {
+        try {bot.emit(message.content.slice(4), message.member);} catch(error) {console.log(error);}
+    }
+
+    if(!message.content.startsWith(config.prefix)) return;
+
     // split message content
     let messageArray = message.content.substring(config.prefix.length).split(" ");
     let cmd = messageArray[0]; // get command
     let args = messageArray.slice(1); // get arguments
 
-    // find command to execute
-    switch(cmd) {
-        case 'hello':       commands.hello(message, args); break;
-        case 'report':      commands.report(message, args); break;
-        case 'serverinfo':  commands.serverinfo(message, args); break;
-        case 'botinfo':     commands.botinfo(message, args); break;
-        case 'kick':        commands.kick(message, args); break;
-        case 'ban':         commands.ban(message, args); break;
-/*      case 'tempmute':    commands.tempmute(message, args); break;
-        case 'removerole':  commands.removerole(message, args); break;
-        case 'addrole':     commands.addrole(message, args); break;
-        case 'warn':        commands.warn(message, args); break;
-        case 'doggo':       commands.doggo(message, args); break;
-        case 'cat':         commands.cat(message, args); break;
-        case 'help':        commands.help(message,args); break;*/
-      case 'commands':       commands.commands(message,args); break; 
-/*      case 'empty':       commands.empty(message,args); break;
-        case 'empty':       commands.empty(message,args); break;
-        case 'empty':       commands.empty(message,args); break;
-        case 'empty':       commands.empty(message,args); break; */
-
-        default: message.channel.send('Unknown command');
+    if(cmd in commands) {
+        commands[cmd].execute(message, args);
+    } else {
+        message.channel.send('Unknown command');
     }
 });
-/*
-bot.on("guildMemberAdd", async member => {
-	try {
-		console.log(`${member.id} joined the server!`);
-    
-		let welcomechannel = message.guild.member(message.guild.channels.find(`name`, "home"));
-		welcomechannel.send(`LOOK OUT EVERYONE! ${member.id} has joined the party`)
-	}
-	catch
-    {" "}
+
+
+
+
+bot.on("guildMemberAdd", member => {
+    console.log(`${member.displayName} joined the server ${member.guild.name}`);
+
+    let welcomechannel = member.guild.channels.cache.find(channel => channel.name == "the-exile");
+    welcomechannel.send(`LOOK OUT EVERYONE! ${member.displayName} has joined the party`);
+
+    let role = member.guild.roles.cache.find(role => role.name == 'member');
+
+    if(role && !member.roles.cache.has(role.id)) {
+        member.roles.add(role);
+    }
 });
 
-bot.on("guildMemberRemove", async member => {
-	try {
-		console.log(`${member.id} left the serevr!`);
 
-		let welcomechannel = message.guild.member(message.guild.channels.find(`name`, "home"));
-		welcomechannel.send(`GOOD RIDDANCE! ${member.id} has bailed on the server!`);
-	}
-    catch 
-    {" "}
+bot.on("guildMemberRemove", member => {
+    console.log(`${member.displayName} left the server ${member.guild.name}`);
+
+    let welcomechannel = member.guild.channels.cache.find(channel => channel.name == "the-exile");
+    welcomechannel.send(`GOOD RIDDANCE! ${member.displayName} has bailed on the server!`);
 });
-*/
+
+
+
+
 // login
 bot.login(config.token);

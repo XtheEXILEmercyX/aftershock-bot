@@ -39,7 +39,7 @@ bot.on("message", message => {
     if(cmd in commands) {
         commands[cmd].execute(message, args);
     } else {
-        message.channel.send('Unknown command');
+        message.channel.send('Unknown command'); 
     }
 });
 

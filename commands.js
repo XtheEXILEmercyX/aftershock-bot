@@ -9,12 +9,80 @@ const admin = require('./utils.js');
 let objExp = module.exports = {};
 let warns = JSON.parse(fs.readFileSync("./warnings.json", "utf8"));
 
+objExp.commands = {
+    execute: (message,args) => {
+        let embed = new Discord.MessageEmbed()
+            .setTitle('commands')
+            .setColor(0xdd0000);
+
+        let cmds = Object.keys(objExp);
+        let max = (cmds.length < 20)? cmds.length : 10; // max the 10 first commands. We'll see for a better version another time
+
+        for(let i=0; i<max; i++) {
+            let cmdName = cmds[i];
+            embed.addField(`${tag}${cmdName}`, objExp[cmdName].description? objExp[cmdName].description : 'No description provided');
+        }
+
+        message.channel.send(embed);
+    }, 
+
+    description: "show all commands"
+}
+
+objExp.help = {
+    execute: (message, args) => {
+        message.channel.send("<@&589814405970264077> can you help this idiot for a sec ?!!!");
+    },
+
+    description: "call for an admin"
+};
+
+objExp.help_pleas = {
+    execute: (message, args) => {
+        message.channel.send("<@&589814405970264077> can you help this kind person pleas?");
+    },
+
+    description: "call for an admin on a kind way"
+};
+
 objExp.hello = {
     execute: (message, args) => {
         message.channel.send("hello sir, hope your day is going well!");
     },
 
     description: "Says hello"
+};
+
+objExp.ping = {
+    execute: (message, args) => {
+        message.channel.send("pong");
+    },
+
+    description: "answer with pong"
+};
+
+objExp.summon_a_bot = {
+    execute: (message, args) => {
+        message.channel.send("a wild discord bot has appeared");
+    },
+
+    description: "summon a wild discord bot (pokemon style)"
+};
+
+objExp.use_pokeball = {
+    execute: (message, args) => {
+        message.channel.send("you have captured me master i will obey you from now on");
+    },
+
+    description: "cath the wild discordbot (pokemon style)"
+};
+
+objExp.pokemon_soundtrack = {
+    execute: (message, args) => {
+        message.channel.send("https://www.youtube.com/watch?v=xtFL0Okuv2Q");
+    },
+
+    description: "plays pokemon soundtrack"
 };
 
 objExp.report = {
@@ -50,7 +118,7 @@ objExp.report = {
         message.channel.send('User reported.\nPro tip: if you spam this command you will be warned.');
     },
 
-    description: "Report a server member"
+    description: "Report a server member or bot"
 };
 
 objExp.serverinfo = {
@@ -83,13 +151,28 @@ objExp.botinfo = {
             .addField("Bot Name", bot.user.username)
             .addField("Created On", bot.user.createdAt)
             .addField("server", message.guild.name)
-            .setTitle("owner information")
-            .addField("owner", "xtheEXILEmercyx")
-            .addField("owner's server", "https://discord.gg/6AfhV9R");
         message.channel.send(botembed);
     },
 
     description: "Gives the bot basic informations"
+};
+
+objExp.ownerinfo = {
+    execute: (message, args) => {
+        // a!botinfo
+        let bicon = bot.user.displayAvatarURL();
+        let botembed = new Discord.MessageEmbed()
+            .setTitle("owner Information")
+            .setColor("#a83232")
+            .setThumbnail(bicon)
+            .addField("Bot Name", bot.user.username)
+            .addField("owner", "xtheEXILEmercyx")
+            .addField("information", "if you need help with the bot or you have some idea's pleas contact me by joining my server!")
+            .addField("owner's server", "https://discord.gg/6AfhV9R");
+        message.channel.send(botembed);
+    },
+
+    description: "Gives the owner basic informations"
 };
 
 objExp.kick = {
@@ -132,7 +215,7 @@ objExp.kick = {
         });
     },
 
-    description: "Kick a server member"
+    description: "Kick a server member (admins only)"
 }
 
 objExp.ban = {
@@ -176,7 +259,7 @@ objExp.ban = {
         });
     },
 
-    description: "Ban a server member"
+    description: "Ban a server member (admins only)"
 };
 /*
 objExp.tempmute = (message, args) => {
@@ -390,25 +473,6 @@ objExp.help = (message,args) => {
 	}
 }
 */
-objExp.commands = {
-    execute: (message,args) => {
-        let embed = new Discord.MessageEmbed()
-            .setTitle('commands')
-            .setColor(0xdd0000);
-
-        let cmds = Object.keys(objExp);
-        let max = (cmds.length < 10)? cmds.length : 10; // max the 10 first commands. We'll see for a better version another time
-
-        for(let i=0; i<max; i++) {
-            let cmdName = cmds[i];
-            embed.addField(`${tag}${cmdName}`, objExp[cmdName].description? objExp[cmdName].description : 'No description provided');
-        }
-
-        message.channel.send(embed);
-    }, 
-
-    description: "show all commands"
-}
 
 /*
 objExp.empty = (message,args) => {

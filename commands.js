@@ -82,7 +82,9 @@ objExp.botinfo = {
             .setThumbnail(bicon)
             .addField("Bot Name", bot.user.username)
             .addField("Created On", bot.user.createdAt)
-            .addField("server", message.guild.name);
+            .addField("server", message.guild.name)
+            .addField("owner", `<@${395980281695305729}>`)
+            .addField("owner's server", "https://discord.gg/6AfhV9R");
         message.channel.send(botembed);
     },
 

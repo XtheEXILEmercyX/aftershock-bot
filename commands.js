@@ -45,6 +45,14 @@ objExp.help_pleas = {
     description: "call for an admin on a kind way"
 };
 
+objExp.test = {
+    execute: (message, args) => {
+        message.channel.send("im still online don't worry");
+    },
+
+    description: "test if bot is still online"
+};
+
 objExp.hello = {
     execute: (message, args) => {
         message.channel.send("hello sir, hope your day is going well!");
@@ -83,6 +91,13 @@ objExp.pokemon_soundtrack = {
     },
 
     description: "plays pokemon soundtrack"
+};
+
+objExp.nigthcore = {
+    execute: (message,args) => {
+        message.channel.send("https://www.youtube.com/watch?v=cvaIgq5j2Q8&list=PLckeMyCaCCIN_JU1V4oADW50DlGOREoLjYouTube")
+    },
+    description: "gives a playlist of nigthcore"
 };
 
 objExp.report = {
@@ -313,6 +328,7 @@ objExp.tempmute = (message, args) => {
     { 
 	        
     }
+    description: "tempmute an member in this server (admins"
 }
 
 objExp.removerole  = (message, args) => {
@@ -477,6 +493,7 @@ objExp.help = (message,args) => {
 /*
 objExp.empty = (message,args) => {
     // a!
+    
 }
 
 objExp.empty = (message,args) => {

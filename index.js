@@ -13,7 +13,6 @@ objExp.bot = bot;
 const config = require("./config.js"); 
 const commands = require("./commands.js");
 
-
 // when bot beeing connected
 bot.on('ready', () => {
     bot.user.setActivity('a!help||a!commands', {type: 'LISTENING'});
@@ -42,9 +41,6 @@ bot.on("message", message => {
         message.channel.send('Unknown command'); 
     }
 });
-
-
-
 
 bot.on("guildMemberAdd", member => {
     console.log(`${member.displayName} joined the server ${member.guild.name}`);

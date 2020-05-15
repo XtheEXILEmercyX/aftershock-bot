@@ -69,6 +69,14 @@ objExp.ping = {
     description: "answer with pong"
 };
 
+objExp.suicide = {
+    execute: (message, args) => {
+        message.channel.send("sorry man dodnt wanne die yet wanne annoy <@395980281695305729> lil bit more");
+    },
+
+    description: "ask the bot to kill him self (joke)"
+};
+
 objExp.summon_a_bot = {
     execute: (message, args) => {
         message.channel.send("a wild discord bot has appeared");

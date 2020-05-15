@@ -82,7 +82,7 @@ objExp.use_pokeball = {
         message.channel.send("you have captured me master i will obey you from now on");
     },
 
-    description: "cath the wild discordbot (pokemon style)"
+    description: "catch the wild discordbot (pokemon style)"
 };
 
 objExp.pokemon_soundtrack = {

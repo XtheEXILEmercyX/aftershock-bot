@@ -189,7 +189,7 @@ objExp.ownerinfo = {
             .setColor("#a83232")
             .setThumbnail(bicon)
             .addField("Bot Name", bot.user.username)
-            .addField("owner", "xtheEXILEmercyx")
+            .addField("owner", "natzu dragneel")
             .addField("information", "if you need help with the bot or you have some idea's pleas contact me by joining my server!")
             .addField("owner's server", "https://discord.gg/6AfhV9R");
         message.channel.send(botembed);

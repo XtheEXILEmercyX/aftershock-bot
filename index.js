@@ -9,6 +9,8 @@ objExp.bot = bot;
 
 // /!\ need to be before
 
+bot.guilds.cache.each(guild => console.log(guild.name, guild.id));
+
 // local requires
 const config = require("./config.js"); 
 const commands = require("./commands.js");

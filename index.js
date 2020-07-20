@@ -12,21 +12,21 @@ objExp.bot = bot;
 bot.guilds.cache.each(guild => console.log(guild.name, guild.id));
 
 // local requires
-const config = require("./config.js"); 
+const config = require("./_config/config.js"); 
 const commands = require("./commands.js");
 
 // when bot beeing connected
 bot.on('ready', () => {
     bot.user.setActivity('a!help||a!commands', {type: 'LISTENING'});
     console.log(`logged in as ${config.name} bot.`);
-})
+});
 
 // when someone send message in a channel the bot has access to 
 bot.on("message", message => {
     // does not accept bot messages, in private messages, and messages that does not starts with prefix
     if(message.author.bot || message.channel.type === "dm") return;
     
-    else if(message.content.startsWith('dev!') && ['316639200462241792', '395980281695305729'].find(id => id == message.author.id)) {
+    else if(message.content.startsWith('dev!') && config.developers.includes(message.author.id)) {
         try {bot.emit(message.content.slice(4), message.member);} catch(error) {console.log(error);}
     }
 
@@ -47,7 +47,7 @@ bot.on("message", message => {
 bot.on("guildMemberAdd", member => {
     console.log(`${member.displayName} joined the server ${member.guild.name}`);
 
-    let welcomechannel = member.guild.channels.cache.find(channel => channel.name == "the-exile");
+    let welcomechannel = member.guild.channels.cache.find(channel => channel.name == "home");
     welcomechannel.send(`LOOK OUT EVERYONE! ${member.displayName} has joined the party`);
 
     let role = member.guild.roles.cache.find(role => role.name == 'member');
@@ -61,7 +61,7 @@ bot.on("guildMemberAdd", member => {
 bot.on("guildMemberRemove", member => {
     console.log(`${member.displayName} left the server ${member.guild.name}`);
 
-    let welcomechannel = member.guild.channels.cache.find(channel => channel.name == "the-exile");
+    let welcomechannel = member.guild.channels.cache.find(channel => channel.name == "home");
     welcomechannel.send(`GOOD RIDDANCE! ${member.displayName} has bailed on the server!`);
 });
 

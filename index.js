@@ -12,7 +12,7 @@ objExp.bot = bot;
 bot.guilds.cache.each(guild => console.log(guild.name, guild.id));
 
 // local requires
-const config = require("./_config/config.js"); 
+const config = require("./_config/.config.js"); 
 const commands = require("./commands.js");
 
 // when bot beeing connected

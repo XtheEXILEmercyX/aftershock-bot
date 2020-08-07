@@ -1,7 +1,7 @@
 const config = {
-    name: "Aftershock",
+    name: "AfterShock",
     prefix: "a!",
-    token: "NzA5NTE5MjkxMTQxMzI0OTAy.XrnFcQ.2caf2EBLKiEFtEb8h7HL7QeubZ0",
+    token: 'NzA5NTE5MjkxMTQxMzI0OTAy.XrnFVQ.4Gcrziu_s1jQBgMDEPxUSj2hDv8',
     developers: ['316639200462241792', '395980281695305729']
 };
 

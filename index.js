@@ -2,48 +2,106 @@
 const Discord = require("discord.js");
 
 // new client instance
-const bot = new Discord.Client({disableEveryone: true});
+const bot = new Discord.Client({ disableEveryone: true });
 
+// local requires
+const config = require("./_config/config.js");
+
+
+// fs
+const fs = require('fs');
+
+//
 let objExp = module.exports = {};
 objExp.bot = bot;
 
-// /!\ need to be before
 
-bot.guilds.cache.each(guild => console.log(guild.name, guild.id));
 
-// local requires
-const config = require("./_config/local.config.js"); 
-const commands = require("./commands.js");
+
+
+
+
+///////////////////////////////////////////////////////
+
+const commands = {};
+
+const loadAllCommands = () => {
+    const folder = './commands';
+
+    fs.readdir(folder, (err, files) => {
+        files.forEach(file => {
+            if(file.endsWith('.js')) {
+
+                const cmdName = file.replace('.js', '');
+
+                const cmd = require(`${folder}/${file}`);
+                
+                commands[cmdName] = cmd;
+            }
+        });
+    });
+};
+
+loadAllCommands();
+
+///////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
 
 // when bot beeing connected
 bot.on('ready', () => {
-    bot.user.setActivity('a!help||a!commands', {type: 'LISTENING'});
-    console.log(`logged in as ${config.name} bot.`);
+    bot.user.setActivity('a!help||a!commands', { type: 'LISTENING' });
+    console.log(`logged in as ${config.name} bot`);
 });
+
+
+
+
+
+
 
 // when someone send message in a channel the bot has access to 
 bot.on("message", message => {
     // does not accept bot messages, in private messages, and messages that does not starts with prefix
-    if(message.author.bot || message.channel.type === "dm") return;
-    
-    else if(message.content.startsWith('dev!') && config.developers.includes(message.author.id)) {
-        try {bot.emit(message.content.slice(4), message.member);} catch(error) {console.log(error);}
+    if (message.author.bot || message.channel.type === "dm") return;
+
+    // dev
+    if(message.content.startsWith('dev!') && config.developers.includes(message.author.id)) {
+        try {
+            bot.emit(message.content.slice(4), message.member);
+        } catch(error) {
+            console.log(error);
+        }
     }
 
-    if(!message.content.startsWith(config.prefix)) return;
+    // user command
+    else if(message.content.startsWith(config.prefix)) {
+        let content = message.content.substr(config.prefix.length).split(' ');
+        
+        let command = content[0];
+        let args = content.slice(1);
 
-    // split message content
-    let messageArray = message.content.substring(config.prefix.length).split(" ");
-    let cmd = messageArray[0]; // get command
-    let args = messageArray.slice(1); // get arguments
-
-    if(cmd in commands) {
-        commands[cmd].execute(message, args);
-    } else {
-        message.channel.send('Unknown command'); 
+        if(command in commands) commands[command].execute(message, args);
+        else message.channel.send(':x: Unknown command');
     }
 });
 
+
+
+
+
+
+
+
+
+
+// when someone joins a server
 bot.on("guildMemberAdd", member => {
     console.log(`${member.displayName} joined the server ${member.guild.name}`);
 
@@ -58,12 +116,26 @@ bot.on("guildMemberAdd", member => {
 });
 
 
+
+
+
+// when someone quits a server
 bot.on("guildMemberRemove", member => {
     console.log(`${member.displayName} left the server ${member.guild.name}`);
 
     let welcomechannel = member.guild.channels.cache.find(channel => channel.name == "home");
     welcomechannel.send(`GOOD RIDDANCE! ${member.displayName} has bailed on the server!`);
 });
+
+
+
+
+
+
+
+
+
+
 
 
 

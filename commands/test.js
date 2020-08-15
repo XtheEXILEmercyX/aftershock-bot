@@ -1,5 +1,5 @@
 module.exports = {
-    execute: (message, args) => {
+    execute: (client, message, args) => {
         message.channel.send("im still online don't worry");
     },
 

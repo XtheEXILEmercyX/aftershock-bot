@@ -2,7 +2,7 @@
 const Discord = require("discord.js");
 
 // new client instance
-const bot = new Discord.Client({ disableEveryone: true });
+const client = new Discord.Client({ disableEveryone: true });
 
 // local requires
 const config = require("./_config/config.js");
@@ -11,19 +11,26 @@ const config = require("./_config/config.js");
 // fs
 const fs = require('fs');
 
-//
-let objExp = module.exports = {};
-objExp.bot = bot;
+
+const Enmap = require('enmap');
 
 
 
 
+client.warns = new Enmap({name: "warn"});
+client.profiles = new Enmap({name: "profiles"});
+
+
+client.mainColor = "#ff0000";
+
+
+client.isDev = authorId => config.developers.includes(authorId);
 
 
 
 ///////////////////////////////////////////////////////
 
-const commands = {};
+client.commands = {};
 
 const loadAllCommands = () => {
     const folder = './commands';
@@ -36,7 +43,7 @@ const loadAllCommands = () => {
 
                 const cmd = require(`${folder}/${file}`);
                 
-                commands[cmdName] = cmd;
+                client.commands[cmdName] = cmd;
             }
         });
     });
@@ -55,8 +62,8 @@ loadAllCommands();
 
 
 // when bot beeing connected
-bot.on('ready', () => {
-    bot.user.setActivity('a!help||a!commands', { type: 'LISTENING' });
+client.on('ready', () => {
+    client.user.setActivity(`${config.prefix}help | ${config.prefix}commands`, { type: 'LISTENING' });
     console.log(`logged in as ${config.name} bot`);
 });
 
@@ -67,14 +74,14 @@ bot.on('ready', () => {
 
 
 // when someone send message in a channel the bot has access to 
-bot.on("message", message => {
-    // does not accept bot messages, in private messages, and messages that does not starts with prefix
+client.on("message", message => {
+    // does not accept client messages, in private messages, and messages that does not starts with prefix
     if (message.author.bot || message.channel.type === "dm") return;
 
     // dev
     if(message.content.startsWith('dev!') && config.developers.includes(message.author.id)) {
         try {
-            bot.emit(message.content.slice(4), message.member);
+            client.emit(message.content.slice(4), message.member);
         } catch(error) {
             console.log(error);
         }
@@ -82,12 +89,15 @@ bot.on("message", message => {
 
     // user command
     else if(message.content.startsWith(config.prefix)) {
-        let content = message.content.substr(config.prefix.length).split(' ');
+        let content = message.content.substr(config.prefix.length).trim().split(' ');
         
         let command = content[0];
         let args = content.slice(1);
 
-        if(command in commands) commands[command].execute(message, args);
+        if(command in client.commands) {
+            client.commands[command].execute(client, message, args);
+        }
+
         else message.channel.send(':x: Unknown command');
     }
 });
@@ -102,11 +112,16 @@ bot.on("message", message => {
 
 
 // when someone joins a server
-bot.on("guildMemberAdd", member => {
+client.on("guildMemberAdd", member => {
     console.log(`${member.displayName} joined the server ${member.guild.name}`);
 
-    let welcomechannel = member.guild.channels.cache.find(channel => channel.name == "home");
-    welcomechannel.send(`LOOK OUT EVERYONE! ${member.displayName} has joined the party`);
+    const embed = Discord.MessageEmbed()
+        .setColor(client.mainColor)
+        .setTitle("Someone has joined us !")
+        .setDescription(`LAOD THE GUNS**${member.user.username}#${member.user.tag}** Has invaded our server!`)
+        .setTimestamp();
+        
+    welcomechannel.end(embed);
 
     let role = member.guild.roles.cache.find(role => role.name == 'member');
 
@@ -120,11 +135,18 @@ bot.on("guildMemberAdd", member => {
 
 
 // when someone quits a server
-bot.on("guildMemberRemove", member => {
+client.on("guildMemberRemove", member => {
     console.log(`${member.displayName} left the server ${member.guild.name}`);
 
     let welcomechannel = member.guild.channels.cache.find(channel => channel.name == "home");
-    welcomechannel.send(`GOOD RIDDANCE! ${member.displayName} has bailed on the server!`);
+
+    const embed = Discord.MessageEmbed()
+        .setColor(client.mainColor)
+        .setTitle("Someone has quit !")
+        .setDescription(`GOOD BYE **${member.user.username}#${member.user.tag}** has bailed on the server!`)
+        .setTimestamp();
+
+    welcomechannel.send(embed);
 });
 
 
@@ -141,4 +163,4 @@ bot.on("guildMemberRemove", member => {
 
 
 // login
-bot.login(config.token);
+client.login(config.token);

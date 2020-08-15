@@ -2,7 +2,7 @@ const admin = require('../utils.js');
 const Discord = require('discord.js');
 
 module.exports = {
-    execute: (message, args) => {
+    execute: (client, message, args) => {
         if (!admin(message.member)) return message.channel.send('You can\'t use this command.');
 
         if (args.length == 0) return message.channel.send('You have to mention a server member.');

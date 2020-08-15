@@ -1,5 +1,5 @@
 module.exports = {
-    execute: (message, args) => {
+    execute: (client, message, args) => {
         message.channel.send("https://www.youtube.com/watch?v=xtFL0Okuv2Q");
     },
 

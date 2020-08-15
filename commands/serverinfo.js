@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 
 module.exports = {
-    execute: (message, args) => {
+    execute: (client, message, args) => {
         // a!botinfo
         let sicon = message.guild.iconURL();
         let serverembed = new Discord.MessageEmbed()

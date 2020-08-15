@@ -2,7 +2,7 @@ const admin = require('../utils.js');
 const Discord = require('discord.js');
 
 module.exports = {
-    execute: (message, args) => {
+    execute: (client, message, args) => {
         // a!ban <@user> <reason>
         if (!admin(message.member)) return message.channel.send('You can\'t use this command.');
 
@@ -21,7 +21,7 @@ module.exports = {
 
         let banEmbed = new Discord.MessageEmbed()
             .setTitle("👉🚪 BAN (7 days)")
-            .setColor("#fca503")
+            .setColor(client.mainColor)
             .addFields(
                 { name: "banned User", value: `${bUser} with ID: \`${bUser.id}\`` },
                 { name: "banned By", value: `${message.author} with ID: \`${message.author.id}\`` },

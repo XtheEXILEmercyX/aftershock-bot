@@ -1,8 +1,7 @@
-const admin = require('../utils.js');
+const { admin } = require('../utils.js');
 const Discord = require('discord.js');
-
 module.exports = {
-    execute: (message, args) => {
+    execute: (client, message, args) => {
         //!report <@user> <reason>
         if (!admin(message.member)) return message.channel.send('You can\'t use this command.');
 

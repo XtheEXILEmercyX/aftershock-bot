@@ -4,7 +4,6 @@ const Discord = require('discord.js');
 module.exports = {
     execute: (client, message, args) => {
         
-        if (!admin(message.member)) return message.channel.send('you can\'t use this command.');
 
         let memberId;
 

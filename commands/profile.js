@@ -5,6 +5,8 @@ module.exports = {
 
         const embed = new Discord.MessageEmbed()
             .setColor(client.mainColor);
+
+        const mention = message.mentions.users.first();
         
         // no arguments : show own profile
         if(args.length === 0) {
@@ -29,8 +31,11 @@ module.exports = {
 
 
         // mentionned someone - show his profile
-        else if(args.length === 1 && message.mentions.users.first()?.id || client.users.cache.get(args[0])) {
-            const member = message.guild.members.cache.get(message.mentions.users.first()?.id || client.users.cache.get(args[0]));
+        else if(args.length === 1 && mention || client.users.cache.get(args[0])) {
+            let member = message.guild.members.cache.get(message.mentions.users.first());
+            
+            if(member) member = member.id;
+            else member = client.users.cache.get(args[0]);
 
             // member not found
             if(!member) {

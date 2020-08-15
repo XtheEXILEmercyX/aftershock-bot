@@ -2,7 +2,7 @@ const {admin} = require('../utils.js');
 const Discord = require('discord.js');
 const fs = require('fs');
 const { deepStrictEqual } = require('assert');
-/*
+
 module.exports = {
     execute: (client, message, args) => {
         client.on('message', async message => {
@@ -60,4 +60,4 @@ module.exports = {
        const broadcast = client.voice.createBroadcast();
        const broadcast2 = client.voice.createBroadcast();
     }
-};*/
+};

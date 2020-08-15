@@ -23,25 +23,26 @@ module.exports = {
 
         let levelsEmbed = new Discord.MessageEmbed()
             .setTitle("❗ Level")
-            .setColor("#a83232")
+            .setColor(client.mainColor)
             .addFields(
                 {name: "Called User", value: `${rUser} with ID: \`${rUser.id}\``},
                 {name: "Called By", value: `${message.author} with ID: \`${message.author.id}\``},
                 {name: "time", value: message.createdAt}
             );
 
-            let levelschannel = message.guild.channels.cache.find(channel => /level/.test(channel.name));
+        let levelschannel = message.guild.channels.cache.find(channel => /level/.test(channel.name));
 
-            if(!levelschannel) {
-                levelschannel = message.channel;
-            }
-
-            levelschannel.send(levelsEmbed).catch(e => {
-                message.channel.send("I can't send message on this channel : " + levelschannel.name);
-                console.error(e);
-            });
-            message.channel.send("Congrats, your reward will be added to your account soon, go check your rank for verification in the <#589836850030575634> Channel.")
-            message.channel.send("Pro Tip! Don't spam this command!!!")
+        if(!levelschannel) {
+            levelschannel = message.channel;
         }
+
+        levelschannel.send(levelsEmbed).catch(e => {
+            message.channel.send("I can't send message on this channel : " + levelschannel.name);
+            console.error(e);
+        });
+
+        message.channel.send("Congrats, your reward will be added to your account soon, go check your rank for verification in the <#589836850030575634> Channel.")
+        message.channel.send("Pro Tip! Don't spam this command!!!")
+    }
    
 }

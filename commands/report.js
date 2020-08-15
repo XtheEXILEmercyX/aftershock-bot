@@ -3,7 +3,6 @@ const Discord = require('discord.js');
 module.exports = {
     execute: (client, message, args) => {
         //!report <@user> <reason>
-        if (!admin(message.member)) return message.channel.send('You can\'t use this command.');
 
         if (args.length == 0) return message.channel.send('You need to mention a server member.');
 

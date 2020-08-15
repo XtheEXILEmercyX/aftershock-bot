@@ -15,8 +15,8 @@ module.exports = {
 
         let kReason = (args.length > 1) ? args.splice(1).join(" ") : 'No reason';
 
-        if (!message.member.hasPermission("KICK_MEMBERS")) return message.channel.send("YOUR NOT AN ADMIN DON'T TRY TO USE COMMANDS THAT ARE NOT MADE FOR YOUR ROLE GO READ SERVER RULES AGAIN !!!");
-        if (kUser.hasPermission("KICK_MEMBERS")) return message.channel.send("that member can't be kicked !");
+        if (!message.member.hasPermission("KICK_MEMBERS")) return message.channel.send("YOU'RE NOT AN ADMIN DON'T TRY TO USE COMMANDS THAT ARE NOT MADE FOR YOUR ROLE, GO READ SERVER RULES AGAIN !!!");
+        if (kUser.hasPermission("KICK_MEMBERS")) return message.channel.send("That member can't be kicked !");
 
         let kickEmbed = new Discord.MessageEmbed()
             .setTitle("👉🚪 Kick")
@@ -30,7 +30,7 @@ module.exports = {
             );
 
         let kickChannel = message.guild.channels.cache.find(channel => channel.name == "incidents");
-        if (!kickChannel) return message.channel.send("Can't find incidents channel!");
+        if (!kickChannel) return message.channel.send("Can't find incidents channel !");
 
         kUser.kick(kReason).then(() => {
             message.channel.send('Member kicked.');

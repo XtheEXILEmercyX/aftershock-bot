@@ -6,7 +6,7 @@ module.exports = {
         let bicon = client.user.displayAvatarURL();
         let botembed = new Discord.MessageEmbed()
             .setTitle("Bot Information")
-            .setColor("#a83232")
+            .setColor(client.mainColor)
             .setThumbnail(bicon)
             .addField("Bot Name", client.user.username)
             .addField("Created On", client.user.createdAt)

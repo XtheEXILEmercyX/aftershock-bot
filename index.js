@@ -5,7 +5,7 @@ const Discord = require("discord.js");
 const client = new Discord.Client({ disableEveryone: true });
 
 // local requires
-const config = require("./_config/config.js");
+const config = require("./_config/local.config.js");
 
 
 // fs
@@ -118,7 +118,7 @@ client.on("guildMemberAdd", member => {
     const embed = Discord.MessageEmbed()
         .setColor(client.mainColor)
         .setTitle("Someone has joined us !")
-        .setDescription(`LAOD THE GUNS**${member.user.username}#${member.user.tag}** Has invaded our server!`)
+        .setDescription(`LAOD THE GUNS**${member.user.username}#${member.user.tag}** has invaded our server!`)
         .setTimestamp();
         
     welcomechannel.end(embed);

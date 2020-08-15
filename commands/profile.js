@@ -87,7 +87,7 @@ module.exports = {
 
         // remove field
         else if(args[0] === 'rub') {
-            if(arguments.length > 0) {
+            if(arguments.length === 0) {
                 embed.setDescription("You need to precise which field you want to remove");
             }
 

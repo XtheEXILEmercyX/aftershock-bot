@@ -22,7 +22,7 @@ module.exports = {
 
         let levelsEmbed = new Discord.MessageEmbed()
             .setTitle("❗ Level")
-            .setColor("#a83232")
+            .setColor("mainColor")
             .addFields(
                 {name: "Called User", value: `${rUser} with ID: \`${rUser.id}\``},
                 {name: "Called By", value: `${message.author} with ID: \`${message.author.id}\``},

@@ -40,7 +40,7 @@ module.exports = {
                 message.channel.send("I can't send message on this channel : " + levelschannel.name);
                 console.error(e);
             });
-            message.channel.send("dodnt spam this command!!!")
+            message.channel.send("Congrats your reward will be added soon pleas go check your rank in <#589836850030575634>")
         }
    
 }

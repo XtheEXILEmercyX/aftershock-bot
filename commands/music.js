@@ -57,7 +57,7 @@ module.exports = {
        connection1.play(broadcast);
        connection2.play(broadcast);
 
-       const broadcast = client.voice.createBroadcast();
+    //    const broadcast = client.voice.createBroadcast();
        const broadcast2 = client.voice.createBroadcast();
     }
 };

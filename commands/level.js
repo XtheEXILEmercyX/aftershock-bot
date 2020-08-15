@@ -4,7 +4,7 @@ const Discord = require('discord.js');
 module.exports = {
     execute: (client, message, args) => {
         
-        if (!admin(message.member)) return message.channel.send('you can\'t use this command.');
+        if(!admin(message.member)) return message.channel.send("You can't use this command.");
 
         let memberId;
 
@@ -25,9 +25,10 @@ module.exports = {
             .setTitle("❗ Level")
             .setColor(client.mainColor)
             .addFields(
-                {name: "Called User", value: `${rUser} with ID: \`${rUser.id}\``},
-                {name: "Called By", value: `${message.author} with ID: \`${message.author.id}\``},
-                {name: "time", value: message.createdAt}
+                {name: "Called User",   value: `${rUser} with ID: \`${rUser.id}\``},
+                {name: "Called By",     value: `${message.author} with ID: \`${message.author.id}\``},
+                {name: "time",          value: message.createdAt},
+                {name: "message",       value: message.url}
             );
 
         let levelschannel = message.guild.channels.cache.find(channel => /level/.test(channel.name));

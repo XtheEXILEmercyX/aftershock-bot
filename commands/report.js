@@ -18,11 +18,12 @@ module.exports = {
             .setTitle("❗ Report")
             .setColor("#a83232")
             .addFields(
-                { name: "Reported User", value: `${rUser} with ID: \`${rUser.id}\`` },
-                { name: "Reported By", value: `${message.author} with ID: \`${message.author.id}\`` },
-                { name: "Reason", value: reason },
-                { name: "Channel", value: message.channel },
-                { name: "Time", value: message.createdAt }
+                { name: "Reported User",    value: `${rUser} with ID: \`${rUser.id}\`` },
+                { name: "Reported By",      value: `${message.author} with ID: \`${message.author.id}\`` },
+                { name: "Reason",           value: reason },
+                { name: "Channel",          value: message.channel },
+                { name: "Time",             value: message.createdAt },
+                { name: "message",          value: message.url}
             );
 
         let reportschannel = message.guild.channels.cache.find(channel => channel.name == 'reports');

@@ -25,7 +25,7 @@ module.exports = {
             const embed = new Discord.MessageEmbed()
                 .setTitle("Warn !")
                 .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true}))
-                .setDescription(`You warn ${user} ! He has now ${client.warns.get(message.guild.id, message.author.id)} warns !`)
+                .setDescription(`You warn ${user} ! He has now ${client.warns.get(message.guild.id, user.id)} warns !`)
                 .setThumbnail(user.displayAvatarURL({dynamic: true}))
                 .setTimestamp()
                 .setColor(0xe74c3c);
@@ -33,11 +33,11 @@ module.exports = {
             message.channel.send(embed);
         }
 
-        //
+        // 2 args
         else if(args.length === 2) {
             // remove all warns of a member
             if(['clear', 'clean'].includes(args[1])) {
-                await client.warns.set(message.guild.id, 0, message.author.id);
+                await client.warns.set(message.guild.id, 0, user.id);
 
                 const embed = new Discord.MessageEmbed()
                     .setTitle("Warns cleaned !")
@@ -55,7 +55,7 @@ module.exports = {
                 const embed = new Discord.MessageEmbed()
                     .setTitle("Warn informations")
                     .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true}))
-                    .setDescription(`${user} he has ${client.warns.get(message.guild.id, message.author.id)} warns.`)
+                    .setDescription(`${user} he has ${client.warns.get(message.guild.id, user.id)} warns.`)
                     .setThumbnail(user.displayAvatarURL({dynamic: true}))
                     .setTimestamp()
                     .setColor(0xe74c3c);

@@ -20,7 +20,7 @@ module.exports = {
 
         let kickEmbed = new Discord.MessageEmbed()
             .setTitle("👉🚪 Kick")
-            .setColor("#fca503")
+            .setColor(client.mainColor)
             .addFields(
                 { name: "Kicked User", value: `${kUser} with ID: \`${kUser.id}\`` },
                 { name: "Kicked By", value: `${message.author} with ID: \`${message.author.id}\`` },

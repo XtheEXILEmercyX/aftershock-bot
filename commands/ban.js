@@ -37,7 +37,7 @@ module.exports = {
             message.channel.send('Member banned.');
             banChannel.send(banEmbed);
         }).catch(error => {
-            console.log("Cannot ban " + bUser.user.username + '#' + bUser.user.discriminator, error);
+            console.log("Cannot ban " + bUser.user.tag, error);
             message.channel.send('An error occured.');
         });
     },

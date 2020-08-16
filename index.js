@@ -17,14 +17,97 @@ const Enmap = require('enmap');
 
 
 
+
+///////////////////////////////////////////////////////
+
 client.warns = new Enmap({name: "warn"});
 client.profiles = new Enmap({name: "profiles"});
+client.muted = new Enmap({name: "muted"});
 
 
 client.mainColor = "#ff0000";
 
 
 client.isDev = authorId => config.developers.includes(authorId);
+
+client.muteMember = async (message, member, duration=0, durationUnity='minutes') => {
+    let mutedRole = message.guild.roles.cache.find(r => r.name === 'muted');
+
+    // muted role does not exist : create it
+    if(!mutedRole) {
+        await message.guild.roles.create({
+            data: {
+                name: 'muted',
+                color: '#607d8b',
+                position: message.guild.roles.cache.size - 5
+            }
+        });
+
+        mutedRole = message.guild.roles.cache.find(c => c.name === "muted");
+    }
+
+    // then add this role to the member, and remove his member role
+
+    if(member.roles.cache.has(mutedRole.id)) {
+        return message.channel.send("This member already has the muted role !");
+    }
+
+    const memberRole = message.guild.roles.cache.find(r => r.name === 'member');
+      
+    // add muted role & remove member role
+    await member.roles.add(mutedRole.id);
+    if(memberRole) await member.roles.remove(memberRole.id);
+            
+    const embed = new Discord.MessageEmbed()
+        .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
+        .setColor(0xe74c3c)
+        .setTitle("Someone has been muted")
+        .setDescription(`**${member.user.tag}** is now muted ${(duration > 0)? `for ${duration} ${durationUnity + ((duration > 1)? 's' : '')}`:''} !`);
+    
+    message.channel.send(embed);
+
+    // if explicit duration
+    if(duration > 0) {
+        if(durationUnity === 'hour')     duration *= 3600000;
+        else if(durationUnity === 'day') duration *= 86400000;
+        else /* minutes by default */    duration *= 60000;
+
+        client.muted.set(member.user.id, Date.now() + duration);
+    }
+};
+
+
+
+client.unmuteMember = async (member, guild, message=null) => {
+    const mutedRole = guild.roles.cache.find(r => r.name === 'muted');
+
+    if(mutedRole) {
+        const memberRole = guild.roles.cache.find(r => r.name === 'member');
+
+        await member.roles.remove(mutedRole.id);
+        if(memberRole) await member.roles.add(memberRole.id);
+    }
+};
+
+///////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -65,9 +148,23 @@ loadAllCommands();
 client.on('ready', () => {
     client.user.setActivity(`${config.prefix}help | ${config.prefix}commands`, { type: 'LISTENING' });
     console.log(`logged in as ${config.name} bot`);
+
+    const guild = client.guilds.cache.get(config.serverId);
+
+    // check every 5 minutes if there need to unmute someone
+    const checkMuted = () => {
+        client.muted.map((endTime, memberId) => {
+            // member can be unmuted
+            if(Date.now() >= endTime) {
+                client.unmuteMember(guild.members.cache.get(memberId), guild);
+                client.muted.delete(memberId);
+            }
+        });
+    };
+
+    checkMuted();
+    client.setInterval(checkMuted, 300000);
 });
-
-
 
 
 
@@ -115,13 +212,15 @@ client.on("message", message => {
 client.on("guildMemberAdd", member => {
     console.log(`${member.displayName} joined the server ${member.guild.name}`);
 
-    const embed = Discord.MessageEmbed()
+    const embed = new Discord.MessageEmbed()
         .setColor(client.mainColor)
         .setTitle("Someone has joined us !")
-        .setDescription(`LAOD THE GUNS**${member.user.username}#${member.user.tag}** has invaded our server!`)
+        .setDescription(`LAOD THE GUNS**${member.user.tag}** has invaded our server!`)
         .setTimestamp();
         
-    welcomechannel.end(embed);
+    let welcomechannel = member.guild.channels.cache.find(channel => channel.name == "home");
+
+    if(welcomechannel) welcomechannel.end(embed);
 
     let role = member.guild.roles.cache.find(role => role.name == 'member');
 
@@ -140,13 +239,13 @@ client.on("guildMemberRemove", member => {
 
     let welcomechannel = member.guild.channels.cache.find(channel => channel.name == "home");
 
-    const embed = Discord.MessageEmbed()
+    const embed = new Discord.MessageEmbed()
         .setColor(client.mainColor)
         .setTitle("Someone has quit !")
-        .setDescription(`GOOD BYE **${member.user.username}#${member.user.tag}** has bailed on the server!`)
+        .setDescription(`GOOD BYE **${member.user.tag}** has bailed on the server!`)
         .setTimestamp();
 
-    welcomechannel.send(embed);
+    if(welcomechannel) welcomechannel.send(embed);
 });
 
 

@@ -36,7 +36,7 @@ module.exports = {
             message.channel.send('Member kicked.');
             kickChannel.send(kickEmbed);
         }).catch(error => {
-            console.log("Cannot kick " + kUser.user.username + '#' + kUser.user.discriminator, error);
+            console.log("Cannot kick " + kUser.user.tag, error);
             message.channel.send('An error occured.');
         });
     },

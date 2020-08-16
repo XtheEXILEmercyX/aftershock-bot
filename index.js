@@ -1,3 +1,10 @@
+/**
+ * @author Dorian Thivolle and Jarne Valkneers
+ * @package Aftershock Discord Bot
+ */
+
+
+
 // module requires
 const Discord = require("discord.js");
 
@@ -5,7 +12,7 @@ const Discord = require("discord.js");
 const client = new Discord.Client({ disableEveryone: true });
 
 // local requires
-const config = require("./_config/local.config.js");
+const config = require("./_config/config.js");
 
 
 // fs

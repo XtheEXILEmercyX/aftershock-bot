@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 
 module.exports = {
-    execute: (client, message, args) => {
+    execute(client, message, args) {
         // a!botinfo
         let bicon = client.user.displayAvatarURL();
         let botembed = new Discord.MessageEmbed()

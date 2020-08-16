@@ -3,7 +3,7 @@ const fs = require('fs');
 const { deepStrictEqual } = require('assert');
 
 module.exports = {
-    execute: (client, message, args) => {
+    execute(client, message, args) {
 
     }
 };

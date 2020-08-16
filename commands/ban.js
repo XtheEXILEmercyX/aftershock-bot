@@ -2,7 +2,7 @@ const admin = require('../utils.js');
 const Discord = require('discord.js');
 
 module.exports = {
-    execute: (client, message, args) => {
+    execute(client, message, args) {
         // a!ban <@user> <reason>
         if (!admin(message.member)) return message.channel.send('You can\'t use this command.');
 

@@ -5,7 +5,7 @@ const Discord = require("discord.js");
 const client = new Discord.Client({ disableEveryone: true });
 
 // local requires
-const config = require("./_config/config.js");
+const config = require("./_config/local.config.js");
 
 
 // fs
@@ -26,6 +26,7 @@ client.muted = new Enmap({name: "muted"});
 
 
 client.mainColor = "#ff0000";
+client.prefix = config.prefix;
 
 
 client.isDev = authorId => config.developers.includes(authorId);
@@ -113,7 +114,7 @@ client.unmuteMember = async (member, guild, message=null) => {
 
 ///////////////////////////////////////////////////////
 
-client.commands = {};
+client.commands = new Discord.Collection();
 
 const loadAllCommands = () => {
     const folder = './commands';
@@ -126,7 +127,9 @@ const loadAllCommands = () => {
 
                 const cmd = require(`${folder}/${file}`);
                 
-                client.commands[cmdName] = cmd;
+				client.commands.set(cmdName, cmd);
+				
+				delete require.cache[require.resolve(`${folder}/${file}`)];
             }
         });
     });
@@ -191,8 +194,8 @@ client.on("message", message => {
         let command = content[0];
         let args = content.slice(1);
 
-        if(command in client.commands) {
-            client.commands[command].execute(client, message, args);
+        if(client.commands.has(command) && typeof client.commands.get(command).execute === 'function') {
+            client.commands.get(command).execute(client, message, args);
         }
 
         else message.channel.send(':x: Unknown command');

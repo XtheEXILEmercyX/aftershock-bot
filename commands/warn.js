@@ -170,5 +170,5 @@ module.exports = {
         }
     },
 
-    description: "Warn a server's member"
+    description: "Warn a server's member (admins only)"
 };

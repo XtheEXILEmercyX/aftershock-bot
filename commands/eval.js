@@ -59,7 +59,6 @@ module.exports = {
 
 		// output embed
 		const embed = new Discord.MessageEmbed()
-			.setColor(client.color.cyan)
 				
 			let desc = "📥 **Tested code**\n```" + lang + code + "```\n";
 		

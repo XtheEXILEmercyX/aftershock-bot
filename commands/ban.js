@@ -27,7 +27,8 @@ module.exports = {
                 { name: "banned By", value: `${message.author} with ID: \`${message.author.id}\`` },
                 { name: "Reason", value: bReason },
                 { name: "Channel", value: message.channel },
-                { name: "Time", value: message.createdAt }
+                { name: "Time", value: message.createdAt },
+                { name: "message",  value: message.url}
             );
 
         let banChannel = message.guild.channels.cache.find(channel => channel.name == "incidents");

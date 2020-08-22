@@ -26,7 +26,8 @@ module.exports = {
                 { name: "Kicked By", value: `${message.author} with ID: \`${message.author.id}\`` },
                 { name: "Reason", value: kReason },
                 { name: "Channel", value: message.channel },
-                { name: "Time", value: message.createdAt }
+                { name: "Time", value: message.createdAt },
+                { name: "message", value: message.url}
             );
 
         let kickChannel = message.guild.channels.cache.find(channel => channel.name == "incidents");

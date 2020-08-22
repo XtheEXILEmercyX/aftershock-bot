@@ -1,4 +1,4 @@
-const {admin}
+const { admin } = require('../utils.js')
 const Discord = require('discord.js');
 
 module.exports = {

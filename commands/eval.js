@@ -22,7 +22,7 @@ module.exports = {
 		
 		
 		const send = msg => message.channel.send(msg);
-		const execute = (cmd, ...args) => client.commands.get(cmd).run(client, message, args) || undefined;
+		const execute = (cmd, ...args) => client.commands.get(cmd).execute(client, message, args);
 				
 		const cleanAfter = text => {
 			if(typeof text == 'string') {

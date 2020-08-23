@@ -232,11 +232,11 @@ client.on("guildMemberAdd", member => {
 
     if(welcomechannel) welcomechannel.end(embed);
 
-    let role = member.guild.roles.cache.find(role => role.name == 'member');
+    /* let role = member.guild.roles.cache.find(role => role.name == 'member');
 
     if(role && !member.roles.cache.has(role.id)) {
         member.roles.add(role);
-    }
+    } */
 });
 
 

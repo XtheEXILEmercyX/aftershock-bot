@@ -12,7 +12,7 @@ module.exports = {
             const timePassed = Date.now() - member.joinedTimestamp;
 
             // time passed must be at least one week
-            return timePassed >= 604800000 && member.roles.cache.size <= 2 && member.roles.cache.has('member'); // @everyone and member
+            return timePassed >= 604800000 && member.roles.cache.size <= 1; // @everyone only
         });
 
         const embed = new Discord.MessageEmbed()

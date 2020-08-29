@@ -12,7 +12,7 @@ module.exports = {
             const timePassed = Date.now() - member.joinedTimestamp;
 
             // time passed must be at least one week
-            return timePassed >= 604800000 && member.roles.cache.size <= 1; // @everyone only
+            return timePassed >= 604800000 && member.roles.cache.size <= 2; // @everyone only
         });
 
         const embed = new Discord.MessageEmbed()
@@ -53,7 +53,7 @@ module.exports = {
         collector.on('end', (collected, reason) => {
             if(reason === 'kickThemAll') {
                 message.channel.send("Kick them all !\nWait a second...").then(msg => {
-                    let msg2 = "Member you requested me to kick for inactives :\n" + inactives.array().join(', ');
+                    let msg2 = "Member you requested me to kick for inactives :\n" + inactives.array().map(member => member.user.tag).join(', ');
 
                     let unkickable = [];
 

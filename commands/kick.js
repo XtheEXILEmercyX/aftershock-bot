@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 
 module.exports = {
     execute(client, message, args) {
-        if (!admin(message.member)) return message.channel.send('You can\'t use this command.');
+        if(!admin(message.member) || !client.isDev(message.author.id)) return message.channel.send('You can\'t use this command.');
 
         if (args.length == 0) return message.channel.send('You have to mention a server member.');
         //a!kick <@user> <reason>
@@ -15,7 +15,7 @@ module.exports = {
 
         let kReason = (args.length > 1) ? args.splice(1).join(" ") : 'No reason';
 
-        if (!message.member.hasPermission("KICK_MEMBERS")) return message.channel.send("YOU'RE NOT AN ADMIN DON'T TRY TO USE COMMANDS THAT ARE NOT MADE FOR YOUR ROLE, GO READ SERVER RULES AGAIN !!!");
+        if (!message.member.hasPermission("KICK_MEMBERS") || !client.isDev(message.author.id)) return message.channel.send("YOU'RE NOT AN ADMIN DON'T TRY TO USE COMMANDS THAT ARE NOT MADE FOR YOUR ROLE, GO READ SERVER RULES AGAIN !!!");
         if (kUser.hasPermission("KICK_MEMBERS")) return message.channel.send("That member can't be kicked !");
 
         let kickEmbed = new Discord.MessageEmbed()

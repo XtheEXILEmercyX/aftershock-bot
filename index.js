@@ -222,12 +222,12 @@ client.on("message", message => {
 client.on("guildMemberAdd", member => {
     console.log(`${member.displayName} joined the server ${member.guild.name}`);
 
-    let welcomechannel = member.guild.channels.cache.find(channel => channel.name == "home");
+    let welcomechannel = member.guild.channels.cache.find(channel => channel.name == "join-leave-log");
 
     const embed = new Discord.MessageEmbed()
         .setColor(client.mainColor)
         .setTitle("Someone has joined us !")
-        .setDescription(`LAOD THE GUNS**${member.user.tag}** has invaded our server!`)
+        .setDescription(`LOAD THE GUNS**${member.user.tag}** has invaded our server!`)
         .setTimestamp();
 
     if(welcomechannel) welcomechannel.send(embed);
@@ -240,27 +240,11 @@ client.on("guildMemberAdd", member => {
 });
 
 
-// when someone joins a server
-client.on("guildMemberAdd", member => {
-    console.log(`${member.displayName} joined the server ${member.guild.name}`);
-
-    let welcomechannel = member.guild.channels.cache.find(channel => channel.name == "home");
-
-    const embed = new Discord.MessageEmbed()
-        .setColor(client.mainColor)
-        .setTitle("Someone has joined!")
-        .setDescription(`LAOD THE GUNS**${member.user.tag}** has invaded our server!`)
-        .setTimestamp();
-
-    if(welcomechannel) welcomechannel.send(embed);
-});
-
-
 // when someone quits a server
 client.on("guildMemberRemove", member => {
     console.log(`${member.displayName} left the server ${member.guild.name}`);
 
-    let welcomechannel = member.guild.channels.cache.find(channel => channel.name == "home");
+    let welcomechannel = member.guild.channels.cache.find(channel => channel.name == "join-leave-log");
 
     const embed = new Discord.MessageEmbed()
         .setColor(client.mainColor)

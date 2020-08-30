@@ -222,13 +222,13 @@ client.on("message", message => {
 client.on("guildMemberAdd", member => {
     console.log(`${member.displayName} joined the server ${member.guild.name}`);
 
+    let welcomechannel = member.guild.channels.cache.find(channel => channel.name == "home");
+
     const embed = new Discord.MessageEmbed()
         .setColor(client.mainColor)
         .setTitle("Someone has joined us !")
         .setDescription(`LAOD THE GUNS**${member.user.tag}** has invaded our server!`)
         .setTimestamp();
-        
-    let welcomechannel = member.guild.channels.cache.find(channel => channel.name == "home");
 
     if(welcomechannel) welcomechannel.end(embed);
 

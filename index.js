@@ -227,7 +227,7 @@ client.on("guildMemberAdd", member => {
     const embed = new Discord.MessageEmbed()
         .setColor(client.mainColor)
         .setTitle("Someone has joined us !")
-        .setDescription(`LOAD THE GUNS**${member.user.tag}** has invaded our server!`)
+        .setDescription(`LOAD THE GUNS **${member.user.tag}** has invaded our server!`)
         .setTimestamp();
 
     if(welcomechannel) welcomechannel.send(embed);

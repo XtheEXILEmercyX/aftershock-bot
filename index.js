@@ -230,7 +230,7 @@ client.on("guildMemberAdd", member => {
         .setDescription(`LAOD THE GUNS**${member.user.tag}** has invaded our server!`)
         .setTimestamp();
 
-    if(welcomechannel) welcomechannel.end(embed);
+    if(welcomechannel) welcomechannel.send(embed);
 
     /* let role = member.guild.roles.cache.find(role => role.name == 'member');
 

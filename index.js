@@ -1,5 +1,5 @@
 /**
- * @author Dorian Thivolle and Jarne Valkneers
+ * @author Dorian Thivolle and Jarne Valkeneers
  * @package Aftershock Discord Bot
  */
 
@@ -254,18 +254,6 @@ client.on("guildMemberRemove", member => {
 
     if(welcomechannel) welcomechannel.send(embed);
 });
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

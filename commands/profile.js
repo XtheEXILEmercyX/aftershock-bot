@@ -29,7 +29,7 @@ module.exports = {
             }
         }
 
-
+        /*
         // mentionned someone - show his profile
         else if(args.length === 1 && mention || client.users.cache.get(args[0])) {
             let member = message.guild.members.cache.get(message.mentions.users.first());
@@ -57,7 +57,7 @@ module.exports = {
                 }
             }
         }
-
+        */
 
         // at least one argument - add / edit field
         else if(args[0] === 'set') {

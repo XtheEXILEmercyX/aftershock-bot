@@ -139,7 +139,7 @@ module.exports = {
                 }
                 
                 else {
-                    msg = `Hello ${user}, you got banned from the server because you probably broke some rules so now you're stuck with a ban for 7 days. After this period of time you can always rejoin by using this link :\nhttps://discord.gg/bWJ4eYj\nbut be aware you still hold your 4 warns so if you get another one you will be banned permanently.`;
+                    msg = `Hello ${user}, you got banned from the server because you probably broke some rules so now you're stuck with a ban for 7 days. After this period of time you can always rejoin by using this link :\nhttps://discord.gg/eqyenKJgeQ\n but be aware you still hold your 4 warns so if you get another one you will be banned permanently.`;
                     
                     await user.send(msg).catch(e => console.error("Cannot DM this user"));
 

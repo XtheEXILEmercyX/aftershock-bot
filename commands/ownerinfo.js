@@ -9,7 +9,7 @@ module.exports = {
             .setColor("#a83232")
             .setThumbnail(bicon)
             .addField("Bot Name", client.user.username)
-            .addField("owner", "master jett #1623")
+            .addField("owner", "TFWMasterJett #1623")
             .addField("information", "if you need help with the client or you have some idea's pleas contact me by joining my server!")
             .addField("owner's server", "https://discord.gg/6AfhV9R");
         message.channel.send(botembed);

@@ -59,7 +59,7 @@ module.exports = {
 
                     inactives.map(async member => {
                         if(member.kickable) {
-                            await member.user.send(`Hello ${member.user.username}, you have been kick because of your inactivity in the Aftershock Gaming server.\nYou can join back the server thanks this invitation link :\nhttps://discord.gg/bWJ4eYj`).catch(e => e);
+                            await member.user.send(`Hello ${member.user.username}, you have been kick because of your inactivity in the Aftershock Gaming server.\nYou can join back the server thanks this invitation link :\nhttps://discord.gg/eqyenKJgeQ`).catch(e => e);
                             member.kick(`Inactivity`);
                         }
 

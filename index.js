@@ -222,7 +222,7 @@ client.on("message", message => {
 client.on("guildMemberAdd", member => {
     console.log(`${member.displayName} joined the server ${member.guild.name}`);
 
-    let welcomechannel = member.guild.channels.cache.find(channel => channel.name == "entrance-log");
+    let welcomechannel = member.guild.channels.cache.find(channel => channel.name == "join-log");
 
     const embed = new Discord.MessageEmbed()
         .setColor(client.mainColor)
@@ -244,7 +244,7 @@ client.on("guildMemberAdd", member => {
 client.on("guildMemberRemove", member => {
     console.log(`${member.displayName} left the server ${member.guild.name}`);
 
-    let welcomechannel = member.guild.channels.cache.find(channel => channel.name == "entrance-log");
+    let welcomechannel = member.guild.channels.cache.find(channel => channel.name == "join-log");
 
     const embed = new Discord.MessageEmbed()
         .setColor(client.mainColor)

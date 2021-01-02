@@ -8,19 +8,22 @@ module.exports = {
             .setTitle("clear");
 
          //looks if you haev the premission (manage_messages)
-         if (!message.member.permissions.has("VIEW_AUDIT_LOG")) return message.channel.send('you dont haev the premisions manage messages!');
+         if (!message.member.permissions.has("VIEW_AUDIT_LOG")) return message.channel.send('you dont have the premision ***view audit_log!***');
 
          let deleteAmount;
- 
+
+            //says that have have to tell the bot how manny messages he has to delete
          if (isNaN(args[0]) || parseInt(args[0]) <= 0) { return message.reply('pleas put a number!') }
  
+            //say max of messages you can delete
          if (parseInt(args[0]) > 100) {
+             //send message when you try to delete to mutch messages at once
              return message.reply('You can only delete 100 message at a time!')
          } else {
              deleteAmount = parseInt(args[0]);
          }
-            message.channel.bulkDelete(deleteAmount + 1, true);
-            message.reply(`**successfully** Deleted ***${deleteAmount}*** Messages.`)
+            message.channel.bulkDelete(deleteAmount + 0, true);
+            message.reply(`**successfully** Deleted ***${deleteAmount}*** Messages!`).catch(console.log);
          
             
     }

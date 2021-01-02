@@ -29,35 +29,33 @@ module.exports = {
             }
         }
 
-        /*
+        
         // mentionned someone - show his profile
         else if(args.length === 1 && mention || client.users.cache.get(args[0])) {
-            let member = message.guild.members.cache.get(message.mentions.users.first());
-            
-            if(member) member = member.id;
-            else member = client.users.cache.get(args[0]);
+
 
             // member not found
-            if(!member) {
-                embed.setDesrcription("I can't find this member on the server");
+            if(!mention) {
+                embed.setDescription("I can't find this member on the server");
             }
 
             // member found
             else {
-                if(client.profiles.has(member.user.id)) {
-                    const profile = client.profiles.get(member.user.id);
+                if(client.profiles.has(mention.id)) {
+                    const profile = client.profiles.get(mention.id);
 
                     for(const field of Object.keys(profile)) {
                         embed.addField(field, profile[field]);
                     }
 
-                    embed.setThumbnail(member.user.displayAvatarURL({dynamic: true}));
+                    embed.setThumbnail(mention.displayAvatarURL({dynamic: true}));
                 } else {
                     embed.setDescription("This member does not have a profile. It's too bad :(");
                 }
             }
         }
-        */
+        
+        
 
         // at least one argument - add / edit field
         else if(args[0] === 'set') {

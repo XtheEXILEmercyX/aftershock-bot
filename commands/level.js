@@ -40,7 +40,8 @@ module.exports = {
             console.error(e);
         });
 
-        message.channel.send("Congrats, your reward will be added to your account soon, go check your rank for verification in the <#589836850030575634> Channel.")
+        //message.channel.send("Congrats, your reward will be added to your account soon, go check your rank for verification in the <#589836850030575634> Channel.")
+        message.channel.send("This system is out of use in this server for now!")
         message.channel.send("Pro Tip! Don't spam this command!!!")
     },
 

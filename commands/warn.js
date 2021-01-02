@@ -2,9 +2,16 @@ const { admin } = require('../utils.js');
 const Discord = require('discord.js');
 
 module.exports = {
+
+    // usage warn = a!warn <@user>
+
+    //usage clear warn = a!warn <@user> <clean/clear>
+
+    //usage warn info = a!wanr <@user> <info>
+
     async execute(client, message, args) {
         if(!admin(message.member) && !client.isDev(message.author.id)) {
-            return message.channel.send("You don't are an administrator !");
+            return message.channel.send("You are not an moderator!");
         }
 
 
@@ -52,11 +59,26 @@ module.exports = {
 
         // 2 args
         else if(args.length === 2) {
+
+            if(!client.isDev(message.author.id)) return message.channel.send("only <@&793540322147827752> can use this command!");
+
             // remove all warns of a member
             if(['clear', 'clean'].includes(args[1])) {
-                await client.warns.set(message.guild.id, 0, user.id);
+                let serverGuild = message.guild;
+
+                await client.warns.set(serverGuild.id, 0, user.id);
 
                 user.send(`Hello ${user}, congratulations, your warns have been cleared !`).catch(e => console.error('Cannot DM this user'));
+
+                let mutedRole = serverGuild.roles.cache.find(r => r.name === 'muted');
+                let member = serverGuild.members.cache.get(user.id)
+
+                if(mutedRole) {
+                    const memberRole = serverGuild.roles.cache.find(r => r.name === 'member');
+            
+                    await member.roles.remove(mutedRole.id);
+                    if(memberRole) await member.roles.add(memberRole.id);
+                }
 
                 const embed = new Discord.MessageEmbed()
                     .setTitle("Warns cleaned !")
@@ -152,7 +174,7 @@ module.exports = {
                 break;
 
             case 5:
-                msg = `${user} Sorry your are permanently banned from the Aftershock Gaming server ! You kept misbehaving so there will be no way to rejoin us !!! (If you thik this was a mistake feel free to contact master jett"1623)`;
+                msg = `${user} Sorry your are permanently banned from the Aftershock Gaming server ! You kept misbehaving so there will be no way to rejoin us !!! (If you think this was a mistake feel free to contact TFWMasterJett#1623)`;
                 
                 if(!message.guild.members.cache.get(user.id).bannable) {
                     message.channel.send("I cannot ban this member.");

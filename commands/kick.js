@@ -3,10 +3,13 @@ const Discord = require('discord.js');
 
 module.exports = {
     execute(client, message, args) {
+
+         //a!kick <@user> <reason>
+        
         if(!admin(message.member) || !client.isDev(message.author.id)) return message.channel.send('You can\'t use this command.');
 
         if (args.length == 0) return message.channel.send('You have to mention a server member.');
-        //a!kick <@user> <reason>
+       
         let memberId = args[0].replace(/<@(&|!)?(\d+)>/, '$2');
 
         let kUser = message.guild.members.cache.get(memberId);
@@ -31,7 +34,7 @@ module.exports = {
             );
 
         let kickChannel = message.guild.channels.cache.find(channel => channel.name == "incidents");
-        if (!kickChannel) return message.channel.send("Can't find incidents channel !");
+        if (!kickChannel) return message.channel.send("Can't find incidents channel!");
 
         kUser.kick(kReason).then(() => {
             message.channel.send('Member kicked.');

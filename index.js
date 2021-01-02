@@ -14,6 +14,7 @@ const client = new Discord.Client({ disableEveryone: true });
 // local requires
 const config = require("./_config/config.js");
 
+const serverGuild = client.guilds.cache.get(config.serverId);
 
 // fs
 const fs = require('fs');
@@ -159,14 +160,12 @@ client.on('ready', () => {
     client.user.setActivity(`${config.prefix}help | ${config.prefix}commands`, { type: 'LISTENING' });
     console.log(`logged in as ${config.name} bot`);
 
-    const guild = client.guilds.cache.get(config.serverId);
-
     // check every 5 minutes if there need to unmute someone
     const checkMuted = () => {
         client.muted.map((endTime, memberId) => {
             // member can be unmuted
             if(Date.now() >= endTime) {
-                client.unmuteMember(guild.members.cache.get(memberId), guild);
+                client.unmuteMember(serverGuild.members.cache.get(memberId), serverGuild);
                 client.muted.delete(memberId);
             }
         });
@@ -208,7 +207,6 @@ client.on("message", message => {
         else message.channel.send(':x: Unknown command');
     }
 });
-
 
 
 

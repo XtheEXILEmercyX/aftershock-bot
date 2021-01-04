@@ -65,7 +65,7 @@ client.muteMember = async (message, member, duration=0, durationUnity='minutes')
       
     // add muted role & remove member role
     await member.roles.add(mutedRole.id);
-    if(memberRole) await member.roles.remove(memberRole.id);
+    if(memberRole) await member.roles.remove(memberRole.id,);
             
     const embed = new Discord.MessageEmbed()
         .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))

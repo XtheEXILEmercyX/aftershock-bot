@@ -7,7 +7,7 @@ module.exports = {
             .setTitle("Rules")
             .setColor("#a83232")
             .addField("***1. No toxicity***", "Includes racism, sexism, homophobia etc...")
-            .addField("***2. Advertisements***", "DM advertisements included")
+            .addField("***2. No advertisements***", "DM advertisements included")
             .addField("***3. No spamming***", "Memes excluded (in <#788515943281721344>)")
             .addField("***4. SFW only***", "This is a sfw community, nfsw profile pictures, posting nfsw memes or any form of such content will result in a warn")
             .addField("***5. Stay on topic in themed channels***", "Be nice, don't try to argue, no slurs, just be nice")
